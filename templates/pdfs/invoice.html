@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td:first-child {
+            width: 60%;
+        }
+        .total {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Invoice</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cart_item in user.carts.first.cart_items.all %}
+                <tr>
+                    <td>
+                        <strong>{{ cart_item.product.product_name }}</strong><br>
+                        Size: {{ cart_item.size_variant.size_name }}, Color: {{ cart_item.color_variant.color_name }}
+                    </td>
+                    <td>${{ cart_item.get_product_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="total">
+            <strong>Total: ${{ user.carts.first.get_cart_total }}</strong>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Thank you for your purchase!</p>
+    </div>
+</body>
+</html>
